@@ -7,7 +7,6 @@
 #include <syslog.h>
 #include <security/pam_ext.h>
 #include <pwd.h>
-#include <cstdarg>
 #include "exception.h"
 
 namespace pam_restrict {
