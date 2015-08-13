@@ -9,7 +9,7 @@ namespace pam_restrict {
       static constexpr const char *keyNoNewPrivs = "NoNewPrivs";
       
       GKeyFile *config;
-      bool get_boolean(const char *group, const char *key, bool *result, bool def);
+      bool get_boolean(const char *group, const char *key, bool def);
     public:
       configfile(const char *filename);
       ~configfile();

@@ -18,32 +18,28 @@ namespace pam_restrict {
   }
 
   bool configfile::newPrivsDisallowed(const char *username) {
-    bool result;
-    
-    if(!get_boolean(username, keyNoNewPrivs, &result, false))
-      throw exception("Error while reading a value from the configuration file.");
-    
-    return result;
+    return get_boolean(username, keyNoNewPrivs, false);
   }
    
-  bool configfile::get_boolean(const char *group, const char *key, bool *result, bool def) {
-    bool res, ret;
+  bool configfile::get_boolean(const char *group, const char *key, bool def) {
+    bool res, good;
     GError *err = nullptr;
-    ret = false;
+    good = false;
 
     res = g_key_file_get_boolean(config, group, key, &err);
     if(err == nullptr) {
       /* use value from configuration file */
-      ret = true;
-      *result = res;
+      good = true;
     }
     else if(err->code == G_KEY_FILE_ERROR_KEY_NOT_FOUND || err->code == G_KEY_FILE_ERROR_GROUP_NOT_FOUND) {
       /* default value */
-      ret = true;   
-      *result = def;
+      good = true;
+      res = def;
     }
     g_clear_error(&err);
-    return ret;
+    if(!good)
+      throw exception("Error while reading a value from the configuration file.");
+    return res;
   }
 
 }
